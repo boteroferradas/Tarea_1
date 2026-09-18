@@ -1,6 +1,8 @@
 import java.lang.System;
 import java.lang.Runtime;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.List;
 
 public class InformeSistema {
 
@@ -38,8 +40,20 @@ public class InformeSistema {
         return bytes / (1024L * 1024L);
     }
 
-    public static String propiedadesSistema() {
-        Scanner teclado = new Scanner(System.in);
+    public static void propiedadesSistema(String[] args) {
+        List <String> prefijos;
+        if (args.length > 0) {
+            prefijos = Arrays.asList(args);
+        } else {
+            prefijos = List.of("os.", "user.", "java.version");
+        }
+
+        System.out.println("Prefijos utilizados: " + prefijos);
+        System.out.println("==================================================");
+        System.getProperties().stringPropertyNames().stream()
+                .filter(clave -> prefijos.stream().anyMatch(clave::startsWith))
+                .sorted().forEach(clave -> System.out.println(clave + " = " + System.getProperty(clave)));
+
     }
 
 }
